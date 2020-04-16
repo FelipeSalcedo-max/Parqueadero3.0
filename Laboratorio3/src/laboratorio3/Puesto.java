@@ -70,9 +70,7 @@ public class Puesto {
         return "Puesto: "+this.getNumero()
             +"\nEstado: "+this.getEstado()
             +"\nPlaca del carro: "+this.getCarro().getPlaca()
-            +"\nPlaca de la moto: "+this.getMoto().getPlaca()
             +"\nHora: "+this.getCarro().getHora()+":"+this.getCarro().getMinuto();
-            +"\nHora: "+this.getMoto().getHora()+":"+this.getMoto().getMinuto();
-            +"\nHora: "+this.getCarro().getHora()+":"+this.getBicicleta().getMinuto();
+            
     }
 }
