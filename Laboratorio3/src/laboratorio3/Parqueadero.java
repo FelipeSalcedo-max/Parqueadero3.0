@@ -79,7 +79,7 @@ public class Parqueadero {
     public String retirarCarro(String placa, String hora, String minutos){
         String mensaje = "No se ha podido retirar el carro";
         
-        int precio = this.calcularPrecio(hora, minutos, this.buscarCarro(placa));
+        int precio = this.calcularPrecioc(hora, minutos, this.buscarCarro(placa));
         
         for(int i=0; i<=this.Puesto.size(); i++)
             if(this.Puesto.get(i).getCarro()!= null && 
@@ -111,7 +111,7 @@ public class Parqueadero {
     public String retirarMoto(String Placam, String hora, String minutos){
         String mensaje = "No se ha podido retirar la moto";
         
-        int precio = this.calcularPrecio(hora, minutos, this.buscarMoto(Placam));
+        int precio = this.calcularPreciom(hora, minutos, this.buscarMoto(Placam));
         
         for(int i=0; i<=this.Puesto.size(); i++)
             if(this.Puesto.get(i).getMoto()!= null && 
@@ -143,7 +143,7 @@ public class Parqueadero {
     public String retirarBicicleta(String NUMERO, String hora, String minutos){
         String mensaje = "No se ha podido retirar la bicicleta";
         
-        int precio = this.calcularPrecio(hora, minutos, this.buscarBicicleta(NUMERO));
+        int precio = this.calcularPreciob(hora, minutos, this.buscarBicicleta(NUMERO));
         
         for(int i=0; i<=this.Puesto.size(); i++)
             if(this.Puesto.get(i).getBicicleta()!= null && 
@@ -223,13 +223,13 @@ public class Parqueadero {
         return -1;
     }
     
-    public int calcularPrecio(String horaSalida, Carro carro){
+    public int calcularPrecioc(String minutoSalida, String horaSalida, Carro carro){
         int costo = 0;
         
-        int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(carro.getHora());
-       // int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(carro.getMinuto());
+        int cantHoras = Integer.parseInt(minutoSalida)/60;//Integer.parseInt(carro.getHora());
+        int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(carro.getMinuto());
         
-        int costoHora = cantHoras*this.getTarifaMinutoc();
+        int costoHora = cantMinutos*this.getTarifaMinutoc();
         int costoFijo = 13000;
         
         if(cantHoras>=10)
@@ -242,13 +242,13 @@ public class Parqueadero {
         return costo;
     }
     
-    public int calcularPrecio(String horaSalida, String minutoSalida, Moto moto){
+    public int calcularPreciom( String minutoSalida,String horaSalida, Moto moto){
         int costo = 0;
         
-        int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(moto.getHora());
+        int cantHoras = Integer.parseInt(minutoSalida)-Integer.parseInt(moto.getHora());
         int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(moto.getMinuto());
         
-        int costoHora = cantHoras*this.getTarifaMinutom();
+        int costoHora = cantMinutos*this.getTarifaMinutom();
         int costoFijo = 13000;
         
         if(cantMinutos>=10)
@@ -261,21 +261,21 @@ public class Parqueadero {
         return costo;
     }
     
-    public int calcularPrecio(String horaSalida, String minutoSalida, Bicicleta bicicleta){
+    public int calcularPreciob( String minutoSalida,String horaSalida, Bicicleta bicicleta){
         int costo = 0;
         
-        int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(bicicleta.getHora());
+        int cantHoras = Integer.parseInt(minutoSalida)-Integer.parseInt(bicicleta.getHora());
         int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(bicicleta.getMinuto());
         
-        int costoHora = cantHoras*this.getTarifaHora();
-        int costoFraccion = 0;
+        int costoHora = cantMinutos*this.getTarifaMinutob();
+        int costoFijo = 13000;
         
         if(cantMinutos>0)
-            costoFraccion = this.getTarifaFraccion();
+            costoFijo = this.getTarifaFija();
         
-        costo = costoHora+costoFraccion;
+        costo = costoHora+costoFijo;
         
-        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora+costoFraccion);
+        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora+costoFijo);
         
         return costo;
     }
@@ -340,3 +340,5 @@ public class Parqueadero {
         this.totalRecaudado = totalRecaudado;
     }
 }
+
+    
