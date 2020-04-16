@@ -63,9 +63,19 @@ public class FormParqueadero extends javax.swing.JFrame {
 
         jLabel2.setText("Hora y minuto de ingreso");
 
-        cmbHoraParquear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
+        cmbHoraParquear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22" }));
+        cmbHoraParquear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbHoraParquearActionPerformed(evt);
+            }
+        });
 
         cmbMinutoParquear.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
+        cmbMinutoParquear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbMinutoParquearActionPerformed(evt);
+            }
+        });
 
         cmdParquear.setText("Parquear");
         cmdParquear.addActionListener(new java.awt.event.ActionListener() {
@@ -76,7 +86,7 @@ public class FormParqueadero extends javax.swing.JFrame {
 
         jLabel6.setText("Hora y minuto de la salida");
 
-        cmbHoraSalida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
+        cmbHoraSalida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20" }));
 
         cmbMinutoSalida.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "00", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59" }));
 
@@ -110,11 +120,11 @@ public class FormParqueadero extends javax.swing.JFrame {
 
         jLabel7.setText("tarifa de parqueo");
 
-        jLabel4.setText("tariafa plana: $13000");
+        jLabel4.setText("tarifa plena: $13000");
 
         jLabel5.setText("Fracción: ");
 
-        menu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "seleccione", "carro", "moto", "bicicleta" }));
+        menu.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "carro", "moto", "bicicleta" }));
         menu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuActionPerformed(evt);
@@ -143,6 +153,12 @@ public class FormParqueadero extends javax.swing.JFrame {
         });
 
         jLabel3.setText("diagrama disponibilidad");
+
+        cmbAutoARetirar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbAutoARetirarActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Placa");
 
@@ -324,23 +340,52 @@ public class FormParqueadero extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdParquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdParquearActionPerformed
-        String placa = this.Placa.getText();
+        int a= menu.getSelectedIndex();
+        switch(a){
+          case 0:
+              String placa = this.Placa.getText();
         String hora = this.cmbHoraParquear.getSelectedItem().toString();
         String minuto = this.cmbMinutoParquear.getSelectedItem().toString();
-        
-        if(placa.isEmpty()){
-            Ventana.imp("Debe ingresar la placa del vehiculo", "Sistema");
-            return;
-        }
-        
-        String mensaje = this.parqueadero.parquearCarro(placa, hora, minuto);
+              String mensaje = this.parqueadero.parquearCarro(placa, hora, minuto);
         Ventana.imp(mensaje, "Sistema");
         this.txtAreaInfo.setText("Parqueadero\n\n"+this.parqueadero.concatenarInfoCarros());
         this.Placa.setText("");
         this.llenarComboCarro();
+              
+              break;
+          case 1:
+              String Placamo = this.Placa.getText();
+        String horam = this.cmbHoraParquear.getSelectedItem().toString();
+        String minutom = this.cmbMinutoParquear.getSelectedItem().toString();
+              String mensajem = this.parqueadero.parquearMoto(Placamo, horam, minutom);
+        Ventana.imp(mensajem, "Sistema");
+        this.txtAreaInfo.setText("Parqueadero\n\n"+this.parqueadero.concatenarInfoMotos());
+        this.Placa.setText("");
+        this.llenarCombomoto();
+              
+              
+              break;  
+          case 2:
+              String NUMERO = this.Placa.getText();
+        String horab = this.cmbHoraParquear.getSelectedItem().toString();
+        String minutob = this.cmbMinutoParquear.getSelectedItem().toString();
+              String mensajeb = this.parqueadero.parquearBicicleta(NUMERO, horab, minutob);
+        Ventana.imp(mensajeb, "Sistema");
+        this.txtAreaInfo.setText("Parqueadero\n\n"+this.parqueadero.concatenarInfoBicicletas());
+        this.Placa.setText("");
+        this.llenarCombobici();
+              
+              break;  
+              
+      }
+        
     }//GEN-LAST:event_cmdParquearActionPerformed
 
     private void cmdRetirarCarroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdRetirarCarroActionPerformed
+        int a= this.cmbAutoARetirar.getSelectedIndex();
+        switch(a){
+            
+            case 0:
         String placa = this.cmbAutoARetirar.getSelectedItem().toString();
         String hora = this.cmbHoraSalida.getSelectedItem().toString();
         String minuto = this.cmbMinutoSalida.getSelectedItem().toString();
@@ -354,10 +399,45 @@ public class FormParqueadero extends javax.swing.JFrame {
         Ventana.imp(mensaje, "Sistema");
         this.llenarComboCarro();
         this.txtAreaInfo.setText("Parqueadero\n\n"+this.parqueadero.concatenarInfoCarros());
+        break;
+            case 1:
+             String placam = this.cmbAutoARetirar.getSelectedItem().toString();
+        String horam = this.cmbHoraSalida.getSelectedItem().toString();
+        String minutom = this.cmbMinutoSalida.getSelectedItem().toString();
+        
+        if(placam.isEmpty()){
+            Ventana.imp("No hay ningúna moto parqueada", "Sistema");
+            return;
+        }
+        
+        String mensajem = this.parqueadero.retirarMoto(placam, horam, minutom);
+        Ventana.imp(mensajem, "Sistema");
+        this.llenarCombomoto();
+        this.txtAreaInfo.setText("Parqueadero\n\n"+this.parqueadero.concatenarInfoMotos());   
+        break;
+            case 2:
+                String placab = this.cmbAutoARetirar.getSelectedItem().toString();
+        String horab = this.cmbHoraSalida.getSelectedItem().toString();
+        String minutob = this.cmbMinutoSalida.getSelectedItem().toString();
+        
+        if(placab.isEmpty()){
+            Ventana.imp("No hay ningún carro parqueado", "Sistema");
+            return;
+        }
+        
+        String mensajeb = this.parqueadero.retirarBicicleta(placab, horab, minutob);
+        Ventana.imp(mensajeb, "Sistema");
+        this.llenarCombobici();
+        this.txtAreaInfo.setText("Parqueadero\n\n"+this.parqueadero.concatenarInfoBicicletas());   
+        break;
+            
+        }
     }//GEN-LAST:event_cmdRetirarCarroActionPerformed
 
     private void cmdPuestosOcupadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdPuestosOcupadosActionPerformed
         this.txtAreaInfo.setText("Parqueadero\n\n"+this.parqueadero.concatenarInfoCarros());
+        this.txtAreaInfo.setText("Parqueadero\n\n"+this.parqueadero.concatenarInfoMotos());
+        this.txtAreaInfo.setText("Parqueadero\n\n"+this.parqueadero.concatenarInfoBicicletas());
     }//GEN-LAST:event_cmdPuestosOcupadosActionPerformed
 
     private void cmdDineroRecaudadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdDineroRecaudadoActionPerformed
@@ -374,15 +454,38 @@ public class FormParqueadero extends javax.swing.JFrame {
 
     private void menuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuActionPerformed
    
-      int a;
-        a = menu.getSelectedIndex();
+      int a= menu.getSelectedIndex();
     }//GEN-LAST:event_menuActionPerformed
 
+    private void cmbHoraParquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbHoraParquearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbHoraParquearActionPerformed
+
+    private void cmbMinutoParquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMinutoParquearActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbMinutoParquearActionPerformed
+
+    private void cmbAutoARetirarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbAutoARetirarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbAutoARetirarActionPerformed
+
     public void llenarComboCarro(){
-        String []carro = this.parqueadero.concatenarPlacasCarros().split("~");
+        String []carro = this.parqueadero.concatenarPlacasCarro().split("~");
         this.cmbAutoARetirar.removeAllItems();
         for(String c: carro)
             this.cmbAutoARetirar.addItem(c);
+    }
+    public void llenarCombomoto(){
+        String []moto = this.parqueadero.concatenarPlacasMoto().split("~");
+        this.cmbAutoARetirar.removeAllItems();
+        for(String m: moto)
+            this.cmbAutoARetirar.addItem(m);
+    }
+    public void llenarCombobici(){
+        String []bici = this.parqueadero.concatenarNumeroBici().split("~");
+        this.cmbAutoARetirar.removeAllItems();
+        for(String b: bici)
+            this.cmbAutoARetirar.addItem(b);
     }
     
     public static void main(String args[]) {

@@ -7,32 +7,46 @@ import laboratorio3.Carro;
  */
 
 public class Puesto {
-    private int numero;
+    private int numeroc;
+    private int numerom;
+    private int numerob;
     private String estado;
     private Carro carro;
     private Moto moto;
     private Bicicleta bicicleta;
     
-    public Puesto(int numero){
-        this.numero = numero;
+    public Puesto(int numeroc){
+        this.numeroc = numeroc;
         this.estado = "Libre";
-    }
     
+    }
     public void asignarPuesto(Carro carro){
         this.carro = carro;
+    }
+    public int getNumeroc() {
+        return numeroc;
+    }
+    public void setNumero(int numeroc) {
+        this.numeroc = numeroc;
     }
     public void asignarPuesto(Moto moto){
         this.moto = moto;
     }
+    public int getNumerom() {
+        return numerom;
+    }
+    public void setNumerom(int numerom) {
+        this.numerom = numerom;
+    }
     public void asignarPuesto(Bicicleta bicicleta){
         this.bicicleta = bicicleta;
     }
-    public int getNumero() {
-        return numero;
+    public int getNumerob() {
+        return numerob;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setNumerob(int numerob) {
+        this.numerob = numerob;
     }
 
     public String getEstado() {
@@ -61,16 +75,37 @@ public class Puesto {
     public void setBicicleta(Bicicleta bicicleta) {
         this.bicicleta = bicicleta;
     }    
-    public String libreString(){
-        return "Puesto: "+this.getNumero()
+    public String libreStringc(){
+        return "Puesto: "+this.getNumeroc()
+            +"\nEstado: "+this.getEstado();
+    }
+     public String libreStringm(){
+        return "Puesto: "+this.getNumerom()
+            +"\nEstado: "+this.getEstado();
+    }
+      public String libreStringb(){
+        return "Puesto: "+this.getNumerob()
             +"\nEstado: "+this.getEstado();
     }
     
-    public String toString(){
-        return "Puesto: "+this.getNumero()
+    public String toStringc(){
+        return "Puesto: "+this.getNumeroc()
             +"\nEstado: "+this.getEstado()
             +"\nPlaca del carro: "+this.getCarro().getPlaca()
             +"\nHora: "+this.getCarro().getHora()+":"+this.getCarro().getMinuto();
-            
+
+}
+    public String toStringm(){
+        return "Puesto: "+this.getNumerom()
+            +"\nEstado: "+this.getEstado()
+            +"\nPlaca de la moto: "+this.getMoto().getPlacam()
+            +"\nHora: "+this.getMoto().getHora()+":"+this.getMoto().getMinuto();
     }
+    public String toStringb(){
+        return "Puesto: "+this.getNumerob()
+            +"\nEstado: "+this.getEstado()
+            +"\nNumero de la bicicleta: "+this.getBicicleta().getNUMERO()
+            +"\nHora: "+this.getBicicleta().getHora()+":"+this.getBicicleta().getMinuto();
+
+}
 }

@@ -14,9 +14,9 @@ public class Parqueadero {
     ArrayList<Moto> Moto;
     ArrayList<Bicicleta> Bicicleta;
     
-    private int tarifaMinutoc;
-    private int tarifaMinutom;
-    private int tarifaMinutob;
+    private int tarifaMinutoc = 75;
+    private int tarifaMinutom = 20;
+    private int tarifaMinutob = 10;
     private int tarifaFija =13000;
     private int totalRecaudado;
     
@@ -161,7 +161,7 @@ public class Parqueadero {
         
         for(Puesto p: Puesto)
             if(p!=null && p.getEstado().equalsIgnoreCase("Libre"))
-                libres += p.libreString()+"\n\n";
+                libres += p.libreStringc()+"\n\n";
                 
         return libres;
     }
@@ -181,7 +181,7 @@ public class Parqueadero {
     public int puestoVacioc(){
         for(Puesto p: Puesto)
             if(p.getEstado().equalsIgnoreCase("Libre"))
-                return (p.getNumero()-1);
+                return (p.getNumeroc()-1);
         
         return -1;
     }
@@ -199,7 +199,7 @@ public class Parqueadero {
         public int puestoVaciom(){
         for(Puesto p: Puesto)
             if(p.getEstado().equalsIgnoreCase("Libre"))
-                return (p.getNumero()-1);
+                return (p.getNumerom()-1);
         
         return -1;
     }
@@ -218,7 +218,7 @@ public class Parqueadero {
     public int puestoVaciob(){
         for(Puesto p: Puesto)
             if(p.getEstado().equalsIgnoreCase("Libre"))
-                return (p.getNumero()-1);
+                return (p.getNumerob()-1);
         
         return -1;
     }
@@ -226,18 +226,18 @@ public class Parqueadero {
     public int calcularPrecioc(String minutoSalida, String horaSalida, Carro carro){
         int costo = 0;
         
-        int cantHoras = Integer.parseInt(minutoSalida)/60;//Integer.parseInt(carro.getHora());
+        //int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(carro.getHora());
         int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(carro.getMinuto());
         
-        int costoHora = cantMinutos*this.getTarifaMinutoc();
-        int costoFijo = 13000;
+        int costoHora = cantMinutos*this.getTarifaMinutoc()*60;
+        int costoFijo = 0;
         
-        if(cantHoras>=10)
+        if(cantMinutos>=10)
             costoFijo = this.getTarifaFija();
         
-        costo = costoHora+costoFijo;
+        costo = costoHora;
         
-        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora+costoFijo);
+        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora);
         
         return costo;
     }
@@ -245,16 +245,16 @@ public class Parqueadero {
     public int calcularPreciom( String minutoSalida,String horaSalida, Moto moto){
         int costo = 0;
         
-        int cantHoras = Integer.parseInt(minutoSalida)-Integer.parseInt(moto.getHora());
+        int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(moto.getHora());
         int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(moto.getMinuto());
         
-        int costoHora = cantMinutos*this.getTarifaMinutom();
-        int costoFijo = 13000;
+        int costoHora = cantHoras*this.getTarifaMinutom()*60;
+        int costoFijo = 0;
         
-        if(cantMinutos>=10)
+        if(cantHoras>=10)
             costoFijo = this.getTarifaFija();
         
-        costo = costoHora+costoFijo;
+        costo = costoHora;
         
         this.setTotalRecaudado(this.getTotalRecaudado()+costoHora+costoFijo);
         
@@ -264,38 +264,72 @@ public class Parqueadero {
     public int calcularPreciob( String minutoSalida,String horaSalida, Bicicleta bicicleta){
         int costo = 0;
         
-        int cantHoras = Integer.parseInt(minutoSalida)-Integer.parseInt(bicicleta.getHora());
+        int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(bicicleta.getHora());
         int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(bicicleta.getMinuto());
         
         int costoHora = cantMinutos*this.getTarifaMinutob();
-        int costoFijo = 13000;
+        int costoFijo = 0;
         
-        if(cantMinutos>0)
+        if(cantHoras>0)
             costoFijo = this.getTarifaFija();
         
-        costo = costoHora+costoFijo;
+        costo = costoHora;
         
-        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora+costoFijo);
+        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora);
         
         return costo;
     }
 
-    public String concatenarPlacasCarros(){
-        String carros = "";
+    public String concatenarPlacasCarro(){
+        String carro = "";
+        
+
+        for(int i=0; i<this.Puesto.size();i++)
+            if(this.Puesto.get(i).getEstado().equalsIgnoreCase("Ocupado"))
+                carro += this.Puesto.get(i).getCarro().getPlaca()+"~";
+        return carro;
+    }
+    
+     public String concatenarPlacasMoto(){
+        String moto = "";   
+
+        for(int i=0; i<this.Puesto.size();i++)
+            if(this.Puesto.get(i).getEstado().equalsIgnoreCase("Ocupado"))
+                moto += this.Puesto.get(i).getMoto().getPlacam()+"~";
+        return moto;
+     }
+        public String concatenarNumeroBici(){
+        String bici = "";
         
         for(int i=0; i<this.Puesto.size();i++)
             if(this.Puesto.get(i).getEstado().equalsIgnoreCase("Ocupado"))
-                carros += this.Puesto.get(i).getCarro().getPlaca()+"~";
-        
-        return carros;
+                bici += this.Puesto.get(i).getBicicleta().getNUMERO()+"~";
+        return bici;
     }
-    
     public String concatenarInfoCarros(){
         String info = "";
         
         for(Puesto p: Puesto)
             if(p.getEstado().equalsIgnoreCase("Ocupado"))
-                info += p.toString()+"\n\n";
+                info += p.toStringc()+"\n\n";
+        
+        return info;
+    }
+    public String concatenarInfoMotos(){
+        String info = "";
+        
+        for(Puesto pm: Puesto)
+            if(pm.getEstado().equalsIgnoreCase("Ocupado"))
+                info += pm.toStringm()+"\n\n";
+        
+        return info;
+    }
+    public String concatenarInfoBicicletas(){
+        String info = "";
+        
+        for(Puesto pb: Puesto)
+            if(pb.getEstado().equalsIgnoreCase("Ocupado"))
+                info += pb.toStringb()+"\n\n";
         
         return info;
     }

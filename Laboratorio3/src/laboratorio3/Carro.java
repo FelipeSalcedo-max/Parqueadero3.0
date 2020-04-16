@@ -3,6 +3,8 @@ package laboratorio3;
 /**
  * @author Emanuel Martínez Pinzón
  */
+import java.util.ArrayList;
+
 
 public class Carro {
     private String placa;
