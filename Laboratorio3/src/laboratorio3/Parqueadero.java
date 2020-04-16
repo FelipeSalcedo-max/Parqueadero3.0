@@ -17,7 +17,7 @@ public class Parqueadero {
     private int tarifaMinutoc;
     private int tarifaMinutom;
     private int tarifaMinutob;
-    private int tarifaFija;
+    private int tarifaFija =13000;
     private int totalRecaudado;
     
     int CantidadCarros;
@@ -230,14 +230,14 @@ public class Parqueadero {
        // int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(carro.getMinuto());
         
         int costoHora = cantHoras*this.getTarifaMinutoc();
-        int costoFijo = 0;
+        int costoFijo = 13000;
         
-        if(cantHoras>=13)
+        if(cantHoras>=10)
             costoFijo = this.getTarifaFija();
         
-        costo = costoHora+costoFraccion;
+        costo = costoHora+costoFijo;
         
-        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora+costoFraccion);
+        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora+costoFijo);
         
         return costo;
     }
@@ -248,15 +248,15 @@ public class Parqueadero {
         int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(moto.getHora());
         int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(moto.getMinuto());
         
-        int costoHora = cantHoras*this.getTarifaHora();
-        int costoFraccion = 0;
+        int costoHora = cantHoras*this.getTarifaMinutom();
+        int costoFijo = 13000;
         
-        if(cantMinutos>0)
-            costoFraccion = this.getTarifaFraccion();
+        if(cantMinutos>=10)
+            costoFijo = this.getTarifaFija();
         
-        costo = costoHora+costoFraccion;
+        costo = costoHora+costoFijo;
         
-        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora+costoFraccion);
+        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora+costoFijo);
         
         return costo;
     }
