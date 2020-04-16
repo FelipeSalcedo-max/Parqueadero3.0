@@ -10,22 +10,22 @@ package laboratorio3;
  * @author RetailAdmin
  */
 public class Moto {
-    private String Placa;
+    private String Placam;
     private String hora;
     private String minuto;
 
-    public Moto(String placa, String hora, String minuto){
-        this.Placa = Placa;
+    public Moto(String Placam, String hora, String minuto){
+        this.Placam = Placam;
         this.hora = hora;
         this.minuto = minuto;
     }
     
-    public String getPlaca() {
-        return Placa;
+    public String getPlacam() {
+        return Placam;
     }
 
-    public void setPlaca(String Placa) {
-        this.Placa = Placa;
+    public void setPlacam(String Placam) {
+        this.Placam = Placam;
     }
 
     public String getHora() {

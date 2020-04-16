@@ -10,21 +10,21 @@ package laboratorio3;
  * @author RetailAdmin
  */
 public class Bicicleta {
-    private int NUMERO;
+    private String NUMERO;
     private String hora;
     private String minuto;
 
-    public Bicicleta(int NUMERO, String hora, String minuto){
+    public Bicicleta(String NUMERO, String hora, String minuto){
         this.NUMERO = NUMERO;
         this.hora = hora;
         this.minuto = minuto;
     }
     
-    public int getnumero() {
+    public String getNUMERO() {
         return NUMERO;
     }
 
-    public void setnumero(int NUMERO) {
+    public void setNUMERO(String NUMERO) {
         this.NUMERO = NUMERO;
     }
 

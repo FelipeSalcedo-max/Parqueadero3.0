@@ -14,8 +14,10 @@ public class Parqueadero {
     ArrayList<Moto> Moto;
     ArrayList<Bicicleta> Bicicleta;
     
-    private int tarifaHora;
-    private int tarifaFraccion;
+    private int tarifaMinutoc;
+    private int tarifaMinutom;
+    private int tarifaMinutob;
+    private int tarifaFija;
     private int totalRecaudado;
     
     int CantidadCarros;
@@ -67,8 +69,8 @@ public class Parqueadero {
         
         if(this.puestoVacioc()!=-1){
             Carro carro = new Carro(placa, hora, minuto);
-            this.Puesto.get(this.puestoVacio()).asignarPuesto(carro);
-            this.Puesto.get(this.puestoVacio()).setEstado("Ocupado");
+            this.Puesto.get(this.puestoVacioc()).asignarPuesto(carro);
+            this.Puesto.get(this.puestoVacioc()).setEstado("Ocupado");
             return "Carro parqueado con exito";
         }         
         return null;
@@ -90,15 +92,15 @@ public class Parqueadero {
         return mensaje;
     }
     
-    public String parquearMoto(String Placa, String hora, String minuto){
+    public String parquearMoto(String Placam, String hora, String minuto){
         
-        if(this.buscarMoto(Placa) != null)
+        if(this.buscarMoto(Placam) != null)
             return "La moto ya esta parqueada en un puesto";
         
-        if(this.puestoVacio()!=-1){
-            Moto moto = new Moto(Placa, hora, minuto);
-            this.Puesto.get(this.puestoVacio()).asignarPuesto(moto);
-            this.Puesto.get(this.puestoVacio()).setEstado("Ocupado");
+        if(this.puestoVaciom()!=-1){
+            Moto moto = new Moto(Placam, hora, minuto);
+            this.Puesto.get(this.puestoVaciom()).asignarPuesto(moto);
+            this.Puesto.get(this.puestoVaciom()).setEstado("Ocupado");
             return "Moto parqueada con exito";
         }
         return null;
@@ -106,14 +108,14 @@ public class Parqueadero {
         
     }
     
-    public String retirarMoto(String Placa, String hora, String minutos){
+    public String retirarMoto(String Placam, String hora, String minutos){
         String mensaje = "No se ha podido retirar la moto";
         
-        int precio = this.calcularPrecio(hora, minutos, this.buscarMoto(Placa));
+        int precio = this.calcularPrecio(hora, minutos, this.buscarMoto(Placam));
         
         for(int i=0; i<=this.Puesto.size(); i++)
             if(this.Puesto.get(i).getMoto()!= null && 
-                    this.Puesto.get(i).getMoto().getPlaca().equalsIgnoreCase(Placa)){
+                    this.Puesto.get(i).getMoto().getPlacam().equalsIgnoreCase(Placam)){
                 this.Puesto.get(i).setMoto(null);
                 this.Puesto.get(i).setEstado("Libre");
                 return "Se ha retirado correctamente, debe pagar "+precio;
@@ -122,31 +124,31 @@ public class Parqueadero {
         return mensaje;
     }
     
-    public String parquearBicicleta( int numero, String hora, String minuto){
+    public String parquearBicicleta( String NUMERO, String hora, String minuto){
         
-        if(this.buscarBicicleta(numero) != null)
-            return "La moto ya esta parqueada en un puesto";
+        if(this.buscarBicicleta(NUMERO) != null)
+            return "La Bicicleta ya esta parqueada en un puesto";
         
-        if(this.puestoVacio()!=-1){
-            Moto moto = new Moto(Placa, hora, minuto);
-            this.Puesto.get(this.puestoVacio()).asignarPuesto(moto);
-            this.Puesto.get(this.puestoVacio()).setEstado("Ocupado");
-            return "Moto parqueada con exito";
+        if(this.puestoVaciob()!=-1){
+            Bicicleta bicicleta = new Bicicleta(NUMERO, hora, minuto);
+            this.Puesto.get(this.puestoVaciob()).asignarPuesto(bicicleta);
+            this.Puesto.get(this.puestoVaciob()).setEstado("Ocupado");
+            return "Bicicleta parqueada con exito";
         }
         return null;
             
         
     }
     
-    public String retirarMoto(String Placa, String hora, String minutos){
-        String mensaje = "No se ha podido retirar la moto";
+    public String retirarBicicleta(String NUMERO, String hora, String minutos){
+        String mensaje = "No se ha podido retirar la bicicleta";
         
-        int precio = this.calcularPrecio(hora, minutos, this.buscarMoto(Placa));
+        int precio = this.calcularPrecio(hora, minutos, this.buscarBicicleta(NUMERO));
         
         for(int i=0; i<=this.Puesto.size(); i++)
-            if(this.Puesto.get(i).getMoto()!= null && 
-                    this.Puesto.get(i).getMoto().getPlaca().equalsIgnoreCase(Placa)){
-                this.Puesto.get(i).setMoto(null);
+            if(this.Puesto.get(i).getBicicleta()!= null && 
+                    this.Puesto.get(i).getBicicleta().getNUMERO().equalsIgnoreCase(NUMERO)){
+                this.Puesto.get(i).setBicicleta(null);
                 this.Puesto.get(i).setEstado("Libre");
                 return "Se ha retirado correctamente, debe pagar "+precio;
             }
@@ -202,12 +204,12 @@ public class Parqueadero {
         return -1;
     }
     
-        public Moto buscarBicicleta(int numero){
+        public Bicicleta buscarBicicleta(String NUMERO){
         Bicicleta bicicleta = null;
         
         for(Puesto p: Puesto)
             if(p.getEstado().equalsIgnoreCase("Ocupado") && 
-                    p.getBicicleta().getnumero().equalsIgnoreCase(numero))
+                    p.getBicicleta().getNUMERO().equalsIgnoreCase(NUMERO))
                 bicicleta = p.getBicicleta();
         
         return bicicleta;
@@ -221,11 +223,30 @@ public class Parqueadero {
         return -1;
     }
     
-    public int calcularPrecio(String horaSalida, String minutoSalida, Carro carro){
+    public int calcularPrecio(String horaSalida, Carro carro){
         int costo = 0;
         
-        int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(Carro.getHora());
-        int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(Carro.getMinuto());
+        int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(carro.getHora());
+       // int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(carro.getMinuto());
+        
+        int costoHora = cantHoras*this.getTarifaMinutoc();
+        int costoFijo = 0;
+        
+        if(cantHoras>=13)
+            costoFijo = this.getTarifaFija();
+        
+        costo = costoHora+costoFraccion;
+        
+        this.setTotalRecaudado(this.getTotalRecaudado()+costoHora+costoFraccion);
+        
+        return costo;
+    }
+    
+    public int calcularPrecio(String horaSalida, String minutoSalida, Moto moto){
+        int costo = 0;
+        
+        int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(moto.getHora());
+        int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(moto.getMinuto());
         
         int costoHora = cantHoras*this.getTarifaHora();
         int costoFraccion = 0;
@@ -240,11 +261,11 @@ public class Parqueadero {
         return costo;
     }
     
-    public int calcularPrecio(String horaSalida, String minutoSalida, Moto moto){
+    public int calcularPrecio(String horaSalida, String minutoSalida, Bicicleta bicicleta){
         int costo = 0;
         
-        int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(moto.getHora());
-        int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(moto.getMinuto());
+        int cantHoras = Integer.parseInt(horaSalida)-Integer.parseInt(bicicleta.getHora());
+        int cantMinutos = Integer.parseInt(minutoSalida)-Integer.parseInt(bicicleta.getMinuto());
         
         int costoHora = cantHoras*this.getTarifaHora();
         int costoFraccion = 0;
@@ -280,21 +301,36 @@ public class Parqueadero {
     }
     
     //------------------------Getter's y Setter's-----------------------------//
-    public int getTarifaHora() {
-        return tarifaHora;
+    public int getTarifaMinutoc() {
+        return tarifaMinutoc;
     }
 
-    public void setTarifaHora(int tarifaHora) {
-        this.tarifaHora = tarifaHora;
+    public void setTarifaMinutoc(int tarifaMinutoc) {
+        this.tarifaMinutoc = tarifaMinutoc;
+    }
+    public int getTarifaMinutom() {
+        return tarifaMinutom;
     }
 
-    public int getTarifaFraccion() {
-        return tarifaFraccion;
+    public void setTarifaMinutom(int tarifaMinutom) {
+        this.tarifaMinutom = tarifaMinutom;
+    }
+    public int getTarifaMinutob() {
+        return tarifaMinutob;
     }
 
-    public void setTarifaFraccion(int tarifaFraccion) {
-        this.tarifaFraccion = tarifaFraccion;
+    public void setTarifaMinutob(int tarifaMinutob) {
+        this.tarifaMinutob = tarifaMinutob;
     }
+    
+    public int getTarifaFija() {
+        return tarifaFija;
+    }
+
+    public void setTarifaFija(int tarifaFija) {
+        this.tarifaFija = tarifaFija;
+    }
+
 
     public int getTotalRecaudado() {
         return totalRecaudado;
