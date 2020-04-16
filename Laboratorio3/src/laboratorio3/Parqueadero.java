@@ -65,7 +65,7 @@ public class Parqueadero {
         if(this.buscarCarro(placa) != null)
             return "El carro ya esta parqueado en un puesto";
         
-        if(this.puestoVacio()!=-1){
+        if(this.puestoVacioc()!=-1){
             Carro carro = new Carro(placa, hora, minuto);
             this.Puesto.get(this.puestoVacio()).asignarPuesto(carro);
             this.Puesto.get(this.puestoVacio()).setEstado("Ocupado");
